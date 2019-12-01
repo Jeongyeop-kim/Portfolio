@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.CategoryMapper">
+
+	<select id="getInterestBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getInterestBoards" resultType="TotalVO">
+		SELECT * FROM merchandise WHERE num = #{num}
+	</select>
+
+
+	<select id="getAppBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'app'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getAppBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'app'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getAppReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'app'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getAppLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'app'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getAppHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'app'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getAppDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'app'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getComBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'com'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getComBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'com'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getComReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'com'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getComLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'com'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getComHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'com'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getComDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'com'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getFasBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'fas'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getFasBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fas'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFasReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fas'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFasLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fas'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFasHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fas'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFasDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fas'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getGenBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'gen'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getGenBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'gen'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getGenReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'gen'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getGenLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'gen'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getGenHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'gen'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getGenDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'gen'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getSpoBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'spo'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getSpoBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'spo'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getSpoReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'spo'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getSpoLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'spo'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getSpoHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'spo'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getSpoDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'spo'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getFurBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'fur'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getFurBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fur'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFurReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fur'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFurLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fur'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFurHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fur'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getFurDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'fur'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getKidBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'kid'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getKidBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'kid'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getKidReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'kid'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getKidLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'kid'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getKidHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'kid'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getKidDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'kid'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getBkBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		WHERE majorc = 'bk'
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			AND info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getBkBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'bk'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getBkReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'bk'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getBkLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'bk'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getBkHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'bk'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getBkDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            WHERE majorc = 'bk'
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						AND info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getResultBoardCount" resultType="int">
+		SELECT COUNT(*) FROM merchandise
+		<where>
+			<if test="gSearch != null and gSearch != ''">
+			info LIKE '%' || #{gSearch} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getResultBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getResultReadCountBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY readcount DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getResultLowPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getResultHighPriceBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY price DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getResultDateBoards" resultType="TotalVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM merchandise
+		            <where>
+		            	<if test="gSearch != null and gSearch != ''">
+						info LIKE '%' || #{gSearch} || '%'
+						</if>
+		            </where>
+		            AND subc LIKE '%' || #{subc} || '%'
+					ORDER BY reg_date DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<select id="getInfoBoard" resultType="TotalVO">
+		SELECT * FROM merchandise WHERE num = #{num} AND majorc = #{majorc} AND subc = #{subc}
+	</select>
+	<update id="updateReadCount">
+		UPDATE merchandise
+		SET readcount = readcount + 1
+		WHERE num = #{num} AND majorc = #{majorc} AND subc = #{subc}
+	</update>
+	<select id="getInfoLowPriceBoards" resultType="TotalVO">
+		SELECT a.* 
+		FROM (SELECT * 
+			  FROM merchandise
+			  WHERE name = #{name}
+			  AND majorc = #{majorc}
+			  AND subc = #{subc}
+			  ORDER BY price ASC) a
+		<![CDATA[
+		WHERE ROWNUM <= 8 ]]>
+	</select>	
+	<select id="getInfoMinimumPrice" resultType="TotalVO">
+		SELECT a.* 
+		FROM (SELECT * 
+			  FROM merchandise
+			  WHERE name = #{name}
+			  AND majorc = #{majorc}
+			  AND subc = #{subc}
+			  ORDER BY price ASC) a
+		<![CDATA[
+		WHERE ROWNUM <= 1 ]]>
+	</select>
+	
+	
+	<select id="getBestPageCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM (SELECT /*+ index_asc(a merchandise_index)*/ ROWNUM rnum, a.*
+			  <![CDATA[
+			  FROM merchandise a WHERE readcount >= 1000) ]]>
+	</select>
+	<select id="getBestPageBoards" resultType="TotalVO">
+		SELECT *
+		FROM (SELECT /*+ index_asc(a merchandise_index)*/ ROWNUM rnum, a.*
+			  <![CDATA[
+			  FROM merchandise a WHERE readcount >= 1000)
+		WHERE rnum <= 8 ]]>
+	</select>
+</mapper>

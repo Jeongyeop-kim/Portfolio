@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.exam.mapper.TradeMapper">
+
+	<select id="getBoardCount" resultType="int">
+		SELECT COUNT(*) FROM board
+		<where>
+			<if test="search != null and search != ''">
+			subject LIKE '%' || #{search} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getBoards" resultType="BoardVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM board
+		            <where>
+		            	<if test="search != null and search != ''">
+						subject LIKE '%' || #{search} || '%'
+						</if>
+		            </where>
+					ORDER BY re_ref DESC, re_seq ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getUsernameOfBoardCount" resultType="int">
+		SELECT COUNT(*) FROM board
+		<where>
+			<if test="search != null and search != ''">
+			username LIKE '%' || #{search} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getUsernameOfBoards" resultType="BoardVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM board
+		            <where>
+		            	<if test="search != null and search != ''">
+						username LIKE '%' || #{search} || '%'
+						</if>
+		            </where>
+					ORDER BY re_ref DESC, re_seq ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="getContentOfBoardCount" resultType="int">
+		SELECT COUNT(*) FROM board
+		<where>
+			<if test="search != null and search != ''">
+			content LIKE '%' || #{search} || '%'
+			</if>
+		</where>
+	</select>
+	<select id="getContentOfBoards" resultType="BoardVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM board
+		            <where>
+		            	<if test="search != null and search != ''">
+						content LIKE '%' || #{search} || '%'
+						</if>
+		            </where>
+					ORDER BY re_ref DESC, re_seq ASC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	<select id="writtenReplyCount" resultType="int">
+		SELECT COUNT(*) FROM treply WHERE parentnum = #{num}
+	</select>
+	
+	
+	<select id="nextBoardNum" resultType="int">
+		SELECT MAX(num) FROM board
+	</select>
+	<insert id="insertBoard">
+		INSERT INTO board (num, username, subject, content, readcount, ip, reg_date, re_ref, re_lev, re_seq)
+		VALUES (#{num}, #{username}, #{subject}, #{content}, #{readcount}, #{ip}, current_timestamp, #{reRef}, #{reLev}, #{reSeq})
+	</insert>
+	
+	
+	<select id="getBoard" resultType="BoardVO">
+		SELECT * FROM board WHERE num = #{num}
+	</select>
+	<update id="updateReadCount">
+		UPDATE board
+		SET readcount = readcount + 1
+		WHERE num = #{num}
+	</update>
+	<select id="getReplyCount" resultType="int">
+		SELECT COUNT(*) FROM treply WHERE parentnum = #{num}
+	</select>
+	<select id="getReplys" resultType="TreplyVO">
+		SELECT b.*
+		FROM (SELECT ROWNUM AS rnum, a.*
+		      FROM (SELECT *
+		            FROM treply
+					ORDER BY num DESC) a
+			  <![CDATA[
+			  WHERE ROWNUM <= #{endRow}) b
+		WHERE rnum >= #{startRow} ]]>
+	</select>
+	
+	
+	<update id="updateBoard">
+		UPDATE board
+		SET subject = #{subject}, content = #{content}
+		WHERE num = #{num}
+	</update>
+	
+	
+	<delete id="deleteBoard">
+		DELETE FROM board WHERE num = #{num}
+	</delete>
+	
+	
+	<select id="nextReplyNum" resultType="int">
+		SELECT MAX(num) FROM treply
+	</select>
+	<insert id="insertReply">
+		INSERT INTO treply (num, username, content, ip, reg_date, re_ref, re_lev, re_seq, parentnum)
+		VALUES (#{num}, #{username}, #{content}, #{ip}, current_timestamp, #{reRef}, #{reLev}, #{reSeq}, #{parentnum})
+	</insert>
+	
+	
+	<update id="updateReply">
+		UPDATE treply
+		SET content = #{content}
+		WHERE num = #{num}
+	</update>
+	<select id="getReply" resultType="TreplyVO">
+		SELECT * FROM treply WHERE num = #{num}
+	</select>
+	
+	
+	<delete id="deleteReply">
+		DELETE FROM treply WHERE num = #{num}
+	</delete>
+	
+	
+	<update id="updateReInsertGroupSequence">
+		UPDATE board
+		SET re_seq = re_seq + 1
+		WHERE re_ref = #{reRef}
+		<![CDATA[
+		AND re_seq > #{reSeq} ]]>
+	</update>
+</mapper>
